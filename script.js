@@ -1,19 +1,22 @@
 var x = document.querySelectorAll("button");
-var myarray = [];
+var myarray = {};
 console.log("Number of Buttons: " + x.length);
 var nodeNameValue = "";
 for (var el in x) {
-  nodeNameValue = "";
-  console.log(x[el].textContent || x[el].innerText);
-  for (
-    var j = 0, atts = x[el].attributes, n = atts != undefined ? atts.length : 0;
-    j < n;
-    j++
-  ) {
-    nodeNameValue += atts[j].nodeName + " = " + atts[j].nodeValue + ";";
+  if(x[el] != undefined && x[el] != null) {
+
+    nodeNameValue = "";
+    myarray[x[el].textContent || x[el].innerText || "unknown" ] = {};
+    for (var j = 0, atts = x[el].attributes, n = atts != undefined ? atts.length : 0;j < n;j++) 
+    {
+      //nodeNameValue += atts[j].nodeName + " = " + atts[j].nodeValue + ";";
+      myarray[x[el]][atts[j].nodeName] = atts[j].nodeValue;
+    }
+    //nodeNameValue += cssPath(x[el]) + ";";
+    console.log(myarray)
+    myarray[x[el]]["cssPath"] = cssPath(x[el]);
+    myarray.push(nodeNameValue);
   }
-  nodeNameValue += cssPath(x[el]) + ";";
-  myarray.push(nodeNameValue);
 }
 console.log("Attributes of the Buttons: ");
 console.log(myarray);

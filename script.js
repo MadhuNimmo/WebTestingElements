@@ -1,25 +1,34 @@
-var x = document.querySelectorAll("button");
-var myarray = {};
-console.log("Number of Buttons: " + x.length);
-var nodeNameValue = "";
-for (var el in x) {
-  if(x[el] != undefined && x[el] != null) {
-
-    nodeNameValue = "";
-    myarray[x[el].textContent || x[el].innerText || "unknown" ] = {};
-    for (var j = 0, atts = x[el].attributes, n = atts != undefined ? atts.length : 0;j < n;j++) 
-    {
-      //nodeNameValue += atts[j].nodeName + " = " + atts[j].nodeValue + ";";
-      myarray[x[el]][atts[j].nodeName] = atts[j].nodeValue;
+function testingElements(elements) {
+  var x = document.querySelectorAll(elements);
+  var myarray = [];
+  console.log("Number of Elements: " + x.length);
+  var nodeNameValue = "";
+  for (var el in x) {
+    if (x[el] !== undefined && x[el] !== null) {
+      //nodeNameValue = "Text Name"+ " = " + myarray[x[el].textContent || x[el].innerText || "unknown" ] ;
+      var itemName = x[el].textContent || x[el].innerText;
+      if (itemName) {
+        myarray[itemName] = {};
+        for (
+          var j = 0,
+            atts = x[el].attributes,
+            n = atts != undefined ? atts.length : 0;
+          j < n;
+          j++
+        ) {
+          //nodeNameValue += atts[j].nodeName + " = " + atts[j].nodeValue + ";";
+          myarray[itemName][atts[j].nodeName] = atts[j].nodeValue;
+        }
+        //nodeNameValue += cssPath(x[el]) + ";";
+        myarray[itemName]["cssPath"] = cssPath(x[el]);
+        //myarray.push(nodeNameValue);
+      }
     }
-    //nodeNameValue += cssPath(x[el]) + ";";
-    console.log(myarray)
-    myarray[x[el]]["cssPath"] = cssPath(x[el]);
-    myarray.push(nodeNameValue);
   }
+  console.log("Attributes of the Buttons: ");
+  console.log(myarray);
+  return;
 }
-console.log("Attributes of the Buttons: ");
-console.log(myarray);
 
 function cssPath(el) {
   if (!(el instanceof Element)) return;
@@ -43,3 +52,5 @@ function cssPath(el) {
   }
   return path.join(" > ");
 }
+
+testingElements("button, a");
